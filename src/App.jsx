@@ -106,9 +106,11 @@ function App() {
               {(tabValue === 1 || tabValue === 2 || tabValue === 3) && (
                 <Box sx={{ mb: 4, display: 'flex', gap: 2 }}>
                    <TextField label="Year" type="number" value={year} onChange={(e) => setYear(e.target.value)} />
-                   <TextField select label="Month" value={month} onChange={(e) => setMonth(e.target.value)} sx={{ width: 120 }}>
-                      {[...Array(12)].map((_, i) => <MenuItem key={i + 1} value={i + 1}>{i + 1}</MenuItem>)}
-                   </TextField>
+                   {(tabValue === 1 || tabValue === 2) && (
+                     <TextField select label="Month" value={month} onChange={(e) => setMonth(e.target.value)} sx={{ width: 120 }}>
+                        {[...Array(12)].map((_, i) => <MenuItem key={i + 1} value={i + 1}>{i + 1}</MenuItem>)}
+                     </TextField>
+                   )}
                    <TextField select label="Currency" value={currency} onChange={(e) => setCurrency(e.target.value)} sx={{ width: 120 }}>
                       {['USD', 'ILS', 'GBP', 'EURO'].map((c) => <MenuItem key={c} value={c}>{c}</MenuItem>)}
                    </TextField>
