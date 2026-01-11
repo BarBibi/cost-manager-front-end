@@ -31,9 +31,14 @@ const BarChartView = ({ year, currency, rates }) => {
     }],
   };
 
+  const formattedTotal = monthlyTotals.reduce((a, b) => a + b, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
   return (
     <Paper sx={{ p: 2 }}>
       <Typography variant="h6" align="center">Monthly Trend ({year})</Typography>
+      <Typography variant="subtitle1" align="center" gutterBottom>
+        Annual Total: {formattedTotal} {currency}
+      </Typography>
       <Bar data={chartData} />
     </Paper>
   );

@@ -85,14 +85,14 @@ export const getReport = async (year, month, currency, exchangeRates = { "USD": 
         const rateToUsd = exchangeRates[cost.currency] || 1;
         const amountInUsd = cost.sum / rateToUsd;
         const targetRate = exchangeRates[currency] || 1;
-        const convertedSum = amountInUsd * targetRate;
+        const convertedSum = parseFloat((amountInUsd * targetRate).toFixed(2));
         
         totalSum += convertedSum;
         return { ...cost, convertedSum };
       });
 
       /* Returns a Promise resolving to a report object */
-      resolve({ costs: costsWithConversion, totalSum });
+      resolve({ costs: costsWithConversion, totalSum: parseFloat(totalSum.toFixed(2)) });
     };
 
     request.onerror = () => reject(request.error);

@@ -17,9 +17,16 @@ const AddCostForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const numericSum = parseFloat(sum);
+    
+    if (numericSum <= 0) {
+      setStatus({ type: 'error', message: 'Sum must be greater than 0.' });
+      return;
+    }
+
     try {
       await addCost({
-        sum: parseFloat(sum),
+        sum: numericSum,
         currency,
         category,
         description,
@@ -38,7 +45,14 @@ const AddCostForm = () => {
       <Typography variant="h6" gutterBottom>Add New Expense</Typography>
       {status && <Alert severity={status.type} sx={{ mb: 2 }}>{status.message}</Alert>}
       <Box component="form" onSubmit={handleSubmit} sx={{ display: 'grid', gap: 2 }}>
-        <TextField label="Sum" type="number" value={sum} onChange={(e) => setSum(e.target.value)} required />
+        <TextField 
+          label="Sum" 
+          type="number" 
+          value={sum} 
+          onChange={(e) => setSum(e.target.value)} 
+          slotProps={{ htmlInput: { step: "0.01", min: "0.01" } }}
+          required 
+        />
         <TextField select label="Currency" value={currency} onChange={(e) => setCurrency(e.target.value)}>
           {currencies.map((option) => (<MenuItem key={option} value={option}>{option}</MenuItem>))}
         </TextField>

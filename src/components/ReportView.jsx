@@ -5,7 +5,7 @@ const ReportView = ({ reportData, currency }) => {
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <Table>
-        <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+        <TableHead sx={{ backgroundColor: 'action.hover' }}>
           <TableRow>
             <TableCell sx={{ fontWeight: 'bold' }}>Date</TableCell>
             <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
@@ -14,18 +14,26 @@ const ReportView = ({ reportData, currency }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {reportData.costs.map((cost) => (
-            <TableRow key={cost.id} hover>
-              <TableCell>{cost.date}</TableCell>
-              <TableCell>{cost.category}</TableCell>
-              <TableCell>{cost.description}</TableCell>
-              <TableCell align="right">{cost.convertedSum.toFixed(2)}</TableCell>
+          {reportData.costs.length > 0 ? (
+            reportData.costs.map((cost) => (
+              <TableRow key={cost.id} hover>
+                <TableCell>{cost.date}</TableCell>
+                <TableCell>{cost.category}</TableCell>
+                <TableCell>{cost.description}</TableCell>
+                <TableCell align="right">
+                  {cost.convertedSum.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4} align="center">No records found for this period.</TableCell>
             </TableRow>
-          ))}
+          )}
           <TableRow>
             <TableCell colSpan={3} sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Total Monthly Expenses</TableCell>
             <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'primary.main' }}>
-              {reportData.totalSum.toFixed(2)} {currency}
+              {reportData.totalSum.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {currency}
             </TableCell>
           </TableRow>
         </TableBody>
