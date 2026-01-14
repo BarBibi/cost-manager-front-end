@@ -8,7 +8,7 @@ const DB_VERSION = 1;
 const STORE_NAME = 'costs';
 
 /* 
- * 3.1 openCostsDB(databaseName, databaseVersion)
+ * openCostsDB(databaseName, databaseVersion)
  * Opens the database and returns a Promise resolving to the database object.
  */
 export const openCostsDB = (databaseName = DB_NAME, databaseVersion = DB_VERSION) => {
@@ -28,7 +28,7 @@ export const openCostsDB = (databaseName = DB_NAME, databaseVersion = DB_VERSION
 };
 
 /* 
- * 3.1 addCost(cost)
+ * addCost(cost)
  * Accepts an object: { sum, currency, category, description, date (optional) }.
  */
 export const addCost = async (cost) => {
@@ -38,7 +38,7 @@ export const addCost = async (cost) => {
     const store = transaction.objectStore(STORE_NAME);
 
     /* 
-     * Logic: If user provides a specific date, use it. 
+     * Logic: If user provides a specific date, use it.
      * Otherwise, use the current system date as default.
      */
     const costEntry = {
@@ -57,7 +57,7 @@ export const addCost = async (cost) => {
 };
 
 /* 
- * 3.1 getReport(year, month, currency)
+ * getReport(year, month, currency)
  * Retrieves costs for specific month/year and converts amounts based on exchange rates.
  */
 export const getReport = async (year, month, currency, exchangeRates = { "USD": 1 }) => {

@@ -1,3 +1,6 @@
+/* 
+ * PieChartView.jsx - Visualizes expense distribution by category for a specific month.
+ */
 import React from 'react';
 import { Paper, Typography, Box } from '@mui/material';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -6,6 +9,7 @@ import { Pie } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChartView = ({ data, currency }) => {
+  /* Aggregate total costs per category for the chart dataset */
   const categoryTotals = data.reduce((acc, cost) => {
     acc[cost.category] = (acc[cost.category] || 0) + cost.convertedSum;
     return acc;

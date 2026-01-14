@@ -1,3 +1,7 @@
+/* 
+ * BarChartView.jsx - Visualizes monthly expenditure trends across a full year.
+ * Fetches data for each month of the selected year.
+ */
 import React, { useEffect, useState } from 'react';
 import { Paper, Typography } from '@mui/material';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
@@ -9,6 +13,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const BarChartView = ({ year, currency, rates }) => {
   const [monthlyTotals, setMonthlyTotals] = useState(Array(12).fill(0));
 
+  /* Fetches totals for all 12 months using Promise.all for performance */
   useEffect(() => {
     const fetchYearlyData = async () => {
       const totals = await Promise.all(

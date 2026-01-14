@@ -1,3 +1,7 @@
+/* 
+ * App.jsx - Main Application Orchestrator for Cost Manager.
+ * Handles global state for theme, currency rates, and navigation between views.
+ */
 import React from 'react';
 import {
   Container,
@@ -23,21 +27,26 @@ import PieChartView from './components/PieChartView';
 import BarChartView from './components/BarChartView';
 import CurrencySettings from './components/CurrencySettings';
 import { getReport } from './idb';
+import { fetchExchangeRates } from './currency';
 
 const DEFAULT_RATES_URL = 'https://currency-rates-api.onrender.com/rates.json';
 
 function App() {
+  /* State for UI theme mode (light/dark) */
   const [mode, setMode] = React.useState(localStorage.getItem('themeMode') || 'light');
+  /* State for active tab navigation */
   const [tabValue, setTabValue] = React.useState(0);
+  /* State for the currency API endpoint and fetched rates */
   const [ratesUrl, setRatesUrl] = React.useState(localStorage.getItem('exchangeRatesUrl') || DEFAULT_RATES_URL);
   const [exchangeRates, setExchangeRates] = React.useState({ "USD": 1 });
   
-  // Shared state for filtering (Year/Month/Currency) to keep tabs synced
+  /* Shared state for filtering (Year/Month/Currency) to keep reports and charts in sync */
   const [year, setYear] = React.useState(new Date().getFullYear());
   const [month, setMonth] = React.useState(new Date().getMonth() + 1);
   const [currency, setCurrency] = React.useState('USD');
   const [reportData, setReportData] = React.useState({ costs: [], totalSum: 0 });
 
+  /* Create MUI theme based on current mode */
   const theme = React.useMemo(
     () =>
       createTheme({
@@ -50,20 +59,25 @@ function App() {
     [mode],
   );
 
+  /* Toggles between light and dark modes and persists to localStorage */
   const toggleColorMode = () => {
     const newMode = mode === 'light' ? 'dark' : 'light';
     setMode(newMode);
     localStorage.setItem('themeMode', newMode);
   };
 
-  /* Fetch rates and data */
+  /* 
+   * Fetch exchange rates and refresh report data whenever 
+   * filters or the rates URL change.
+   */
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(ratesUrl);
-        const rates = response.ok ? await response.json() : { "USD": 1, "ILS": 3.4 };
+        /* Use utility from currency.js to fetch rates */
+        const rates = await fetchExchangeRates(ratesUrl);
         setExchangeRates(rates);
         
+        /* Get the calculated report from idb.js */
         const data = await getReport(year, month, currency, rates);
         setReportData(data);
       } catch (error) {

@@ -1,3 +1,7 @@
+/* 
+ * ReportView.jsx - Component for displaying expenses in a tabular format.
+ * Shows converted sums and the total monthly expenditure.
+ */
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableRow, Paper } from '@mui/material';
 

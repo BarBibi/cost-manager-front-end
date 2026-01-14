@@ -1,3 +1,7 @@
+/*
+ * CurrencySettings.jsx - Component for configuring the application.
+ * Allows users to set a custom URL for fetching exchange rates.
+ */
 import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Paper, Alert } from '@mui/material';
 
@@ -5,6 +9,7 @@ const CurrencySettings = ({ onSaveUrl, currentUrl }) => {
   const [url, setUrl] = useState(currentUrl || 'https://currency-rates-api.onrender.com/rates.json');
   const [saved, setSaved] = useState(false);
 
+  /* Persists the new URL to localStorage and updates the app state */
   const handleSave = () => {
     localStorage.setItem('exchangeRatesUrl', url);
     onSaveUrl(url);

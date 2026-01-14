@@ -1,3 +1,7 @@
+/* 
+ * AddCostForm.jsx - Component for adding new expense records.
+ * Validates input and saves data to IndexedDB.
+ */
 import React, { useState } from 'react';
 import { Box, TextField, MenuItem, Button, Typography, Paper, Alert } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -15,6 +19,7 @@ const AddCostForm = () => {
   const [date, setDate] = useState(dayjs());
   const [status, setStatus] = useState(null);
 
+  /* Validates and submits the form data to IndexedDB */
   const handleSubmit = async (event) => {
     event.preventDefault();
     const numericSum = parseFloat(sum);
